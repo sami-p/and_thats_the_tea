@@ -6,4 +6,6 @@ class Subscription < ApplicationRecord
   validates :price, presence: true
   validates :status, presence: true
   validates :frequency, presence: true
+
+  enum status: { active: 0, cancelled: 1 }
 end
