@@ -1,6 +1,13 @@
 class Api::V1::SubscriptionsController < ApplicationController
   def create
-    render json: Subscription.create(subscription_params)
+    customer = Customer.find(subscription_params[:customer_id])
+    if !customer.nil?
+      subscription = Subscription.new(subscription_params)
+      subscription.save
+      render json: SubscriptionSerializer.new(subscription)
+    else
+      render json: error('Customer not found.')
+    end
   end
 
   private
