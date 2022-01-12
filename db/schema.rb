@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_11_005821) do
+ActiveRecord::Schema.define(version: 2022_01_12_154857) do
 
   create_table "customers", force: :cascade do |t|
     t.string "first_name"
@@ -25,7 +25,7 @@ ActiveRecord::Schema.define(version: 2022_01_11_005821) do
     t.string "title"
     t.float "price"
     t.integer "status"
-    t.integer "frequency"
+    t.string "frequency"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "customer_id", null: false
