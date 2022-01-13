@@ -10,6 +10,15 @@ class Api::V1::SubscriptionsController < ApplicationController
     end
   end
 
+  def update
+    subscription = Subscription.find(params[:id])
+    if subscription.update(subscription_params)
+      render json: SubscriptionSerializer.new(subscription)
+    else
+      render json: { error: 'ERROR: Invalid Request.' }, status: :not_found
+    end
+  end
+
   private
 
   def subscription_params

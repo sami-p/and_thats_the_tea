@@ -24,4 +24,25 @@ describe "Subscriptions API" do
     expect(created_subscription.status).to eq(subscription_params[:status])
     expect(created_subscription.frequency).to eq(subscription_params[:frequency])
   end
+
+  # Add sad path for no existing customer
+
+  it "can cancel an existing subscription" do
+    customer = create(:customer)
+    subscription = create(:subscription).id
+    status = Subscription.last.status
+    subscription_params = ({ status: "cancelled" })
+
+    headers = {"CONTENT_TYPE" => "application/json"}
+
+    patch "/api/v1/subscriptions/#{subscription}", headers: headers, params: JSON.generate(subscription: subscription_params)
+
+    cancelled_subscription = Subscription.find_by(id: subscription)
+
+    expect(response).to be_successful
+    expect(cancelled_subscription.status).to eq("cancelled")
+    # Change frequency based on status ?
+  end
+
+  # Add sad path for non-valid ID
 end
