@@ -26,9 +26,25 @@ RSpec.describe "Customers API", type: :request do
 
       expect(response.status).to eq(200)
 
-      result = JSON.parse(response.body, symbolize_names: true)
+      result = JSON.parse(response.body, symbolize_names: true)[:data]
 
-      expect(customer.subscriptions.count).to eq(2)
+      expect(result).to be_an Array
+      expect(result.length).to eq(2)
+
+      expect(result[0][:attributes]).to have_key(:title)
+      expect(result[0][:attributes][:title]).to eq(subscription_1.title)
+      
+      expect(result[0][:attributes]).to have_key(:price)
+      expect(result[0][:attributes][:price]).to eq(subscription_1.price)
+
+      expect(result[0][:attributes]).to have_key(:status)
+      expect(result[0][:attributes][:status]).to eq(subscription_1.status)
+
+      expect(result[0][:attributes]).to have_key(:frequency)
+      expect(result[0][:attributes][:frequency]).to eq(subscription_1.frequency)
+
+      expect(result[0][:attributes]).to have_key(:customer_id)
+      expect(result[0][:attributes][:customer_id]).to eq(customer.id)
     end
   end
 end
