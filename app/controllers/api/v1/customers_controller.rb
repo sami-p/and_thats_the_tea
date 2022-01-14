@@ -1,7 +1,7 @@
 class Api::V1::CustomersController < ApplicationController
   def show
     customer = Customer.find(params[:id])
-    require "pry"; binding.pry
+    render json: CustomerSerializer.new(customer)
     subscriptions = customer.subscriptions
   end
 end

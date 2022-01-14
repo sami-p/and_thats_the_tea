@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "Customers API" do
+RSpec.describe "Customers API", type: :request do
   describe '#show' do
     it 'lists all subscriptions for a customer' do
       customer = create(:customer)
@@ -27,6 +27,8 @@ RSpec.describe "Customers API" do
       expect(response.status).to eq(200)
 
       result = JSON.parse(response.body, symbolize_names: true)
+
+      expect(customer.subscriptions.count).to eq(2)
     end
   end
 end
