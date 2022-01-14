@@ -25,6 +25,23 @@ RSpec.describe "Subscriptions API" do
       expect(created_subscription.status).to eq(subscription_params[:status])
       expect(created_subscription.frequency).to eq(subscription_params[:frequency])
     end
+
+    it 'will not create a subscription without a valid customer ID' do
+      customer = create(:customer)
+      subscription_params = ({
+                              title: Faker::Hipster.sentence(word_count: 1),
+                              price: 29.99,
+                              status: "active",
+                              frequency: Faker::Subscription.subscription_term
+                             })
+
+      headers = {"CONTENT_TYPE" => "application/json"}
+
+      post "/api/v1/subscriptions", headers: headers, params: JSON.generate(subscription: subscription_params)
+
+      expect(response).to_not be_successful
+      expect(customer.subscriptions.count).to eq(0)
+    end
   end
 
   describe '#update' do
